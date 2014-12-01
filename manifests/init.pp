@@ -52,6 +52,11 @@ class serf (
     source => $download_url,
   } ->
 
+  staging::extract { 'serf.zip':
+    target  => $bin_dir,
+    creates => "${bin_dir}/serf",
+  } ->
+
   file { [$handlers_dir, '/etc/serf']:
     ensure  => directory,
   } ->
