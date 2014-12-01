@@ -37,12 +37,12 @@
 # Copyright 2014 Justin Clayton, unless otherwise noted.
 #
 class serf (
-  $version              = '0.4.1',
+  $version              = '0.6.3',
   $bin_dir              = '/usr/local/bin',
   $handlers_dir         = '/etc/serf/handlers',
   $arch                 = $serf::params::arch,
   $init_script_url      = $serf::params::init_script_url,
-  $init_script_path     = $serf::params::init_script_path,
+  $init_script_file     = $serf::params::init_script_file,
   $config_hash          = {}
 ) inherits serf::params {
 
@@ -52,21 +52,12 @@ class serf (
     source => $download_url,
   } ->
 
-  staging::extract { 'serf.zip':
-    target  => $bin_dir,
-    creates => "${bin_dir}/serf",
-  } ->
-
   file { [$handlers_dir, '/etc/serf']:
     ensure  => directory,
   } ->
 
-  staging::file { $init_script_path:
-    source => $init_script_url,
-    target => $init_script_path,
-  } ->
-
   file { $init_script_path:
+    source  => $serf::params::init_script_file,
     mode    => '0755',
     notify  => Service['serf'],
   }
