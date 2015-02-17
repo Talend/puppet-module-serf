@@ -43,7 +43,9 @@ class serf (
   $arch                 = $serf::params::arch,
   $init_script_url      = $serf::params::init_script_url,
   $init_script_file     = $serf::params::init_script_file,
-  $config_hash          = {}
+  $config_hash          = {},
+  $service_ensure       = running,
+  $service_enable       = true
 ) inherits serf::params {
 
   $download_url = "https://dl.bintray.com/mitchellh/serf/${version}_linux_${arch}.zip"
@@ -74,7 +76,7 @@ class serf (
   }
 
   service { 'serf':
-    enable => true,
-    ensure => running,
+    enable => $service_enable,
+    ensure => $service_ensure
   }
 }
