@@ -48,7 +48,7 @@ class serf (
   $service_enable       = true
 ) inherits serf::params {
 
-  $download_url = "https://dl.bintray.com/mitchellh/serf/${version}_linux_${arch}.zip"
+  $download_url = "https://releases.hashicorp.com/serf/${version}/serf_${version}_linux_${arch}.zip"
 
   staging::file { 'serf.zip':
     source => $download_url,
